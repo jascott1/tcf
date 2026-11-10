@@ -35,7 +35,7 @@ class _sdist(distutils.command.sdist.sdist):
 
     def make_release_tree(self, base_dir, files):
         self.mkpath(base_dir)
-        distutils.dir_util.create_tree(base_dir, files, dry_run=self.dry_run)
+        distutils.dir_util.create_tree(base_dir, files)
         target_dir = os.path.join(base_dir, 'tcfl')
         setupl.mk_version_py(target_dir, self.distribution.get_version())
         distutils.command.sdist.sdist.make_release_tree(self, base_dir, files)
