@@ -53,6 +53,16 @@ class _build_py(distutils.command.build_py.build_py):
         distutils.command.build_py.build_py.run(self)
 
 
+import setuptools.command.bdist_rpm
+# setuptools names sdists with the PEP 625 normalized name (tcf_client-*)
+# but the bdist_rpm spec still refers to the unnormalized one
+class _bdist_rpm(setuptools.command.bdist_rpm.bdist_rpm):
+    def _make_spec_file(self):
+        norm = self.distribution.get_name().replace('-', '_')
+        return [ l.replace('%{name}-%{unmangled_version}',
+                           norm + '-%{unmangled_version}')
+                 for l in super()._make_spec_file() ]
+
 setup(
     # package name 'tcf' was already taken
     name = 'tcf-client',
@@ -70,6 +80,7 @@ This is the client and meta-testcase runner for the TCF test case framework.
     # This is needed so when data is to be installed, our
     # _install_data class is used.
     cmdclass = dict(
+        bdist_rpm = _bdist_rpm,
         build_py = _build_py,
         install_scripts = setupl._install_scripts,
         install_data = setupl._install_data,
