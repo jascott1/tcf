@@ -112,6 +112,7 @@ targets over HTTP to be controlled by the TCF client.
             'ttbd@.service',
             'hw-healthmonitor/ttbd-hw-healthmonitor.service'
         ]),
+        ('@prefix@/lib/sysusers.d', [ 'ttbd.sysusers.conf' ]),
         ('@sysconfigdir@/sudoers.d', [
             'ttbd_sudo',
             'hw-healthmonitor/ttbd_hw_healthmonitor_sudo'
